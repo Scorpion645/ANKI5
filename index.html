@@ -19,6 +19,104 @@
   <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
 
   <style>
+.anki-content {
+  word-break: break-word;
+  text-align: left !important;
+  width: 100%;
+  line-height: 1.6 !important;
+}
+
+.anki-content p {
+  margin: 0 0 8px 0;
+  line-height: 1.6 !important;
+}
+
+.anki-content ul, .editor-canvas ul {
+  list-style-type: disc !important;
+  margin-left: 24px !important;
+  padding-left: 12px !important;
+  text-align: inherit !important;
+}
+
+.anki-content ol, .editor-canvas ol {
+  list-style-type: decimal !important;
+  margin-left: 24px !important;
+  padding-left: 12px !important;
+  text-align: left !important;
+}
+
+.anki-content li, .editor-canvas li {
+  margin: 6px 0 !important;
+  text-align: left !important;
+  line-height: 1.5 !important;
+}
+
+
+
+
+.anki-content p {
+  margin: 0 0 8px 0;
+}
+
+/* Ensure paragraph blocks inside cards keep clean spacing */
+.anki-content p {
+  margin: 0 0 8px 0;
+}
+/* Apply list formatting to both the editor canvas and the rendered card view */
+.editor-canvas ul, .anki-content ul {
+  list-style-type: disc !important;
+  margin-left: 24px !important;
+  padding-left: 12px !important;
+  text-align: left !important;
+}
+
+.editor-canvas ol, .anki-content ol {
+  list-style-type: decimal !important;
+  margin-left: 24px !important;
+  padding-left: 12px !important;
+  text-align: left !important;
+}
+
+.editor-canvas li, .anki-content li {
+  margin: 4px 0 !important;
+  text-align: left !important;
+}
+.editor-canvas ul {
+  list-style-type: disc;
+  margin-left: 24px;
+  padding-left: 12px;
+}
+
+.editor-canvas ol {
+  list-style-type: decimal;
+  margin-left: 24px;
+  padding-left: 12px;
+}
+
+.editor-canvas li {
+  margin: 4px 0;
+}
+body.light-mode #decksGrid select {
+  background-color: #f1f5f9 !important;
+  color: #4f46e5 !important;
+  border-color: #cbd5e1 !important;
+}
+
+
+body.light-mode #view-decks button[onclick="promptCreateDeck()"] {
+  background-color: #4f46e5 !important;
+  color: #ffffff !important;
+  border: 1px solid #4f46e5 !important;
+}
+body.light-mode #view-decks button[onclick="promptCreateDeck()"]:hover {
+  background-color: #4338ca !important;
+}
+
+
+body.light-mode .color-palette-bar {
+      background-color: #f1f5f9 !important;
+      border-color: #cbd5e1 !important;
+    }
     :root {
       --primary-color: #4f46e5;
       --primary-hover: #4338ca;
@@ -65,9 +163,9 @@
       display: block;
       max-width: 100%;
     }
-    .anki-content {
-      word-break: break-word;
-    }
+   .anki-content {
+  word-break: break-word;
+}
 
     /* Permanent Sidebar Deck Viewer Layout */
     .deck-viewer-container {
@@ -145,15 +243,16 @@
 
     /* WYSIWYG Editable Canvas Styling */
     .editor-canvas {
-      min-height: 120px;
-      background-color: #0f172a;
-      border: 1px solid #334155;
-      border-radius: 0.75rem;
-      padding: 0.75rem;
-      color: #f8fafc;
-      outline: none;
-      overflow-y: auto;
-    }
+  min-height: 120px;
+  background-color: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+  color: #f8fafc;
+  outline: none;
+  overflow-y: auto;
+  font-weight: normal; /* Forces all text inside editor canvases to be bold by default */
+}
 
     .editor-canvas:focus {
       border-color: #6366f1;
@@ -354,15 +453,49 @@ body.light-mode .sidebar-header {
       color: #0f172a !important;
     }
 
-    body.light-mode #cardBack span {
-      background-color: #f1f5f9 !important;
-      color: #4f46e5 !important;
-      border-color: #cbd5e1 !important;
-    }
+#backContent * {
+    text-align: inherit !important;
+}
+
+    
+body.light-mode #cardBack span {
+  border-color: inherit !important;
+}
+
+
+
+#backContent {
+    text-align: left !important;
+}
+
+/* Preserve bold formatting entered or pasted into the Add Card back editor. */
+#backContent b,
+#backContent strong {
+    font-weight: bold !important;
+}
+
+#backContent ul,
+#backContent ol {
+    display: block;
+    width: 100%;
+    margin-left: 0;
+    padding-left: 1.5rem;
+}
+
+#backContent li {
+    text-align: left;
+}
+
+#frontContent,
+#backContent {
+    width: 100%;
+    max-width: none;
+}
 
     /* Target study top control bar and its child buttons/elements in light mode */
     
-```css
+
+
     /* Target study top control bar and container background in light mode */
     body.light-mode #view-study > div:first-child {
       background-color: #ffffff !important;
@@ -533,19 +666,31 @@ body.light-mode .text-slate-100,
     body.focus-study-active #focusExitBar {
       display: flex !important;
     }
-/* Enlarge Card Mobile-Optimized Modal Styles */
-    #enlargedCardModal {
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-    }
-    .enlarged-content img {
-      max-width: 100% !important;
-      height: auto !important;
-      border-radius: 12px;
-      margin: 12px auto;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-    }
-  </style>
+
+/* 1. Form Inputs: Default Front side inputs to bold, Back side inputs to normal */
+#modalCardFront, #createCardFront, #editCardFront {
+  font-weight: bold !important;
+}
+
+#modalCardBack, #createCardBack, #editCardBack {
+  font-weight: normal;
+}
+
+/* 2. Study View / Rendered Cards: Force Front content to be bold, let Back content follow its original text formatting */
+#frontContent, #frontContent * {
+  font-weight: bold !important;
+}
+
+#frontContent, #frontContent * {
+  font-weight: bold !important;
+}
+
+#backContent {
+  font-weight: normal;
+}
+
+
+</style>
 </head>
 <body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col font-sans antialiased selection:bg-indigo-500 selection:text-white">
 
@@ -611,11 +756,19 @@ body.light-mode .text-slate-100,
         <div class="flex items-center space-x-2 overflow-x-auto py-1 scrollbar-none" id="categoryFilterContainer">
           <button onclick="filterCategory('ALL')" class="cat-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-indigo-600 text-white shadow-sm transition">All Decks</button>
         </div>
-        <button onclick="promptCreateCategory()" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-700 hover:bg-slate-600 text-indigo-300 border border-slate-600 transition flex items-center space-x-1.5">
-          <i class="fa-solid fa-folder-plus"></i>
-          <span>New Group</span>
-        </button>
+        
+<div class="flex items-center space-x-2">
+          <button onclick="promptCreateDeck()" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-indigo-600 hover:bg-indigo-500 text-white transition flex items-center space-x-1.5 shadow-sm">
+            <i class="fa-solid fa-plus"></i>
+            <span>New Deck</span>
+          </button>
+          <button onclick="promptCreateCategory()" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-700 hover:bg-slate-600 text-indigo-300 border border-slate-600 transition flex items-center space-x-1.5">
+            <i class="fa-solid fa-folder-plus"></i>
+            <span>New Group</span>
+          </button>
+        </div>
       </div>
+
 
       <div id="decksGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       </div>
@@ -666,11 +819,6 @@ body.light-mode .text-slate-100,
           <button onclick="toggleImmersiveMode()" id="immersiveBtn" class="px-3 py-1.5 bg-purple-600/80 hover:bg-purple-600 text-white rounded-xl text-xs font-semibold flex items-center space-x-1.5 transition shadow-md" title="Toggle Fullscreen">
             <i class="fa-solid fa-expand"></i>
             <span id="immersiveBtnText">Full Screen</span>
-          </button>
-<!-- ENLARGE CARD BUTTON -->
-          <button onclick="openEnlargedCard()" class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold flex items-center space-x-1.5 transition shadow-md" title="Enlarge Card for iPhone">
-            <i class="fa-solid fa-magnifying-glass-plus"></i>
-            <span>Enlarge</span>
           </button>
           <button onclick="toggleEditCurrentCard()" class="px-3.5 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold flex items-center space-x-1.5 transition shadow-md">
             <i class="fa-solid fa-pen-to-square"></i>
@@ -734,15 +882,15 @@ body.light-mode .text-slate-100,
                 <!-- Front Side -->
                 <div id="cardFront" class="card-front w-full flex-1 flex flex-col items-center justify-center text-center space-y-4">
                   <span id="cardTitleBadge" class="text-[10px] font-bold tracking-wider uppercase text-slate-400 bg-slate-900/80 px-2.5 py-1 rounded-full border border-slate-700">QUESTION</span>
-                  <div id="frontContent" class="anki-content text-base md:text-lg font-medium text-slate-100 max-w-xl overflow-y-auto max-h-[260px] w-full">
-                  </div>
+                  <div id="frontContent" class="anki-content text-base md:text-lg text-slate-100 max-w-xl overflow-y-auto max-h-[260px] w-full">
+</div>
                 </div>
 
                 <!-- Back Side -->
                 <div id="cardBack" class="card-back absolute inset-0 p-6 w-full h-full flex flex-col items-center justify-center text-center space-y-4 bg-slate-800 rounded-2xl border border-slate-700 overflow-hidden">
                   <span class="text-[10px] font-bold tracking-wider uppercase text-indigo-400 bg-indigo-950/80 px-2.5 py-1 rounded-full border border-indigo-800/50">ANSWER</span>
-                  <div id="backContent" class="anki-content text-base md:text-lg font-medium text-slate-100 max-w-xl overflow-y-auto max-h-[260px] w-full">
-                  </div>
+                  <div id="backContent" class="anki-content text-base md:text-lg text-slate-100 max-w-xl overflow-y-auto max-h-[260px] w-full">
+</div>
                 </div>
                 
                 <div class="text-center text-[11px] text-slate-500 mt-2">
@@ -802,7 +950,11 @@ body.light-mode .text-slate-100,
 
                 <!-- Full Formatting Toolbar -->
                 <div class="flex flex-wrap gap-1 bg-slate-800 p-1.5 rounded-lg border border-slate-700 items-center">
-                  <button type="button" onclick="execCmd('bold', 'editCardFront')" class="toolbar-btn" title="Bold"><i class="fa-solid fa-bold"></i></button>
+                  
+
+<button type="button" onmousedown="event.preventDefault()" onclick="execCmd('bold')" class="toolbar-btn" title="Bold"><i class="fa-solid fa-bold"></i></button>
+
+
                   <button type="button" onclick="execCmd('italic', 'editCardFront')" class="toolbar-btn" title="Italic"><i class="fa-solid fa-italic"></i></button>
                   <button type="button" onclick="execCmd('underline', 'editCardFront')" class="toolbar-btn" title="Underline"><i class="fa-solid fa-underline"></i></button>
                   <span class="w-[1px] bg-slate-700 my-1 mx-0.5"></span>
@@ -813,16 +965,26 @@ body.light-mode .text-slate-100,
                     <option value="5">Large (5)</option>
                     <option value="7">Huge (7)</option>
                   </select>
-                  <label class="toolbar-btn flex items-center gap-1 cursor-pointer px-2" title="Text Color">
-                    <i class="fa-solid fa-palette text-xs text-indigo-400"></i>
-                    <span class="text-[11px]">Color</span>
-                    <input type="color" onchange="execCmd('foreColor', 'editCardFront', this.value)" class="w-6 h-6 border-0 bg-transparent cursor-pointer rounded p-0" />
-                  </label>
+                  
+
+<div class="color-palette-bar flex items-center space-x-1 px-1 bg-slate-900/50 rounded-lg border border-slate-700/60 py-0.5">
+                <button type="button" onmousedown="event.preventDefault()" onclick="applyColor('#000000')" class="w-4 h-4 rounded-full bg-black border border-slate-600 hover:scale-110 transition" title="Black"></button>
+                <button type="button" onmousedown="event.preventDefault()" onclick="applyColor('#ef4444')" class="w-4 h-4 rounded-full bg-red-500 border border-slate-600 hover:scale-110 transition" title="Red"></button>
+                <button type="button" onmousedown="event.preventDefault()" onclick="applyColor('#3b82f6')" class="w-4 h-4 rounded-full bg-blue-500 border border-slate-600 hover:scale-110 transition" title="Blue"></button>
+                <button type="button" onmousedown="event.preventDefault()" onclick="applyColor('#eab308')" class="w-4 h-4 rounded-full bg-yellow-500 border border-slate-600 hover:scale-110 transition" title="Yellow"></button>
+                <button type="button" onmousedown="event.preventDefault()" onclick="applyColor('#22c55e')" class="w-4 h-4 rounded-full bg-green-500 border border-slate-600 hover:scale-110 transition" title="Green"></button>
+              </div>
+
+
                   <span class="w-[1px] bg-slate-700 my-1 mx-0.5"></span>
                   <button type="button" onclick="execCmd('justifyLeft', 'editCardFront')" class="toolbar-btn" title="Align Left"><i class="fa-solid fa-align-left"></i></button>
                   <button type="button" onclick="execCmd('justifyCenter', 'editCardFront')" class="toolbar-btn" title="Align Center"><i class="fa-solid fa-align-center"></i></button>
                   <button type="button" onclick="execCmd('justifyRight', 'editCardFront')" class="toolbar-btn" title="Align Right"><i class="fa-solid fa-align-right"></i></button>
-                  <button type="button" onclick="execCmd('insertUnorderedList', 'editCardFront')" class="toolbar-btn" title="Bullet List"><i class="fa-solid fa-list-ul"></i></button>
+                 
+
+<button type="button" onmousedown="event.preventDefault()" onclick="execCmd('insertUnorderedList', 'editCardFront')" class="toolbar-btn" title="Bullet List"><i class="fa-solid fa-list-ul"></i></button>
+<button type="button" onmousedown="event.preventDefault()" onclick="execCmd('insertOrderedList', 'editCardFront')" class="toolbar-btn" title="Numbered List"><i class="fa-solid fa-list-ol"></i></button>
+
                   <button type="button" onclick="execCmd('removeFormat', 'editCardFront')" class="toolbar-btn" title="Clear Formatting"><i class="fa-solid fa-eraser"></i></button>
                 </div>
 
@@ -856,16 +1018,26 @@ body.light-mode .text-slate-100,
                     <option value="5">Large (5)</option>
                     <option value="7">Huge (7)</option>
                   </select>
-                  <label class="toolbar-btn flex items-center gap-1 cursor-pointer px-2" title="Text Color">
-                    <i class="fa-solid fa-palette text-xs text-indigo-400"></i>
-                    <span class="text-[11px]">Color</span>
-                    <input type="color" onchange="execCmd('foreColor', 'editCardBack', this.value)" class="w-6 h-6 border-0 bg-transparent cursor-pointer rounded p-0" />
-                  </label>
+                  
+<div class="color-palette-bar flex items-center space-x-1 px-1 bg-slate-900/50 rounded-lg border border-slate-700/60 py-0.5">
+                <button type="button" onmousedown="event.preventDefault()" onclick="applyColor('#000000')" class="w-4 h-4 rounded-full bg-black border border-slate-600 hover:scale-110 transition" title="Black"></button>
+                <button type="button" onmousedown="event.preventDefault()" onclick="applyColor('#ef4444')" class="w-4 h-4 rounded-full bg-red-500 border border-slate-600 hover:scale-110 transition" title="Red"></button>
+                <button type="button" onmousedown="event.preventDefault()" onclick="applyColor('#3b82f6')" class="w-4 h-4 rounded-full bg-blue-500 border border-slate-600 hover:scale-110 transition" title="Blue"></button>
+                <button type="button" onmousedown="event.preventDefault()" onclick="applyColor('#eab308')" class="w-4 h-4 rounded-full bg-yellow-500 border border-slate-600 hover:scale-110 transition" title="Yellow"></button>
+                <button type="button" onmousedown="event.preventDefault()" onclick="applyColor('#22c55e')" class="w-4 h-4 rounded-full bg-green-500 border border-slate-600 hover:scale-110 transition" title="Green"></button>
+              </div>
+
                   <span class="w-[1px] bg-slate-700 my-1 mx-0.5"></span>
                   <button type="button" onclick="execCmd('justifyLeft', 'editCardBack')" class="toolbar-btn" title="Align Left"><i class="fa-solid fa-align-left"></i></button>
                   <button type="button" onclick="execCmd('justifyCenter', 'editCardBack')" class="toolbar-btn" title="Align Center"><i class="fa-solid fa-align-center"></i></button>
                   <button type="button" onclick="execCmd('justifyRight', 'editCardBack')" class="toolbar-btn" title="Align Right"><i class="fa-solid fa-align-right"></i></button>
-                  <button type="button" onclick="execCmd('insertUnorderedList', 'editCardBack')" class="toolbar-btn" title="Bullet List"><i class="fa-solid fa-list-ul"></i></button>
+                  
+
+<button type="button" onmousedown="event.preventDefault()" onclick="execCmd('insertUnorderedList', 'editCardBack')" class="toolbar-btn" title="Bullet List"><i class="fa-solid fa-list-ul"></i></button>
+<button type="button" onmousedown="event.preventDefault()" onclick="execCmd('insertOrderedList', 'editCardBack')" class="toolbar-btn" title="Numbered List"><i class="fa-solid fa-list-ol"></i></button>
+
+
+
                   <button type="button" onclick="execCmd('removeFormat', 'editCardBack')" class="toolbar-btn" title="Clear Formatting"><i class="fa-solid fa-eraser"></i></button>
                 </div>
 
@@ -997,19 +1169,29 @@ body.light-mode .text-slate-100,
                 <option value="5">Large (5)</option>
                 <option value="7">Huge (7)</option>
               </select>
-              <label class="toolbar-btn flex items-center gap-1 cursor-pointer px-2" title="Text Color">
-                <i class="fa-solid fa-palette text-xs text-indigo-400"></i>
-                <span class="text-[11px]">Color</span>
-                <input type="color" onchange="execCmd('foreColor', 'createCardFront', this.value)" class="w-6 h-6 border-0 bg-transparent cursor-pointer rounded p-0" />
-              </label>
-              <span class="w-[1px] bg-slate-700 my-1 mx-0.5"></span>
+              
+<div class="color-palette-bar flex items-center space-x-1 px-1 bg-slate-900/50 rounded-lg border border-slate-700/60 py-0.5">
+                <button type="button" onmousedown="event.preventDefault()" onclick="applyColor('#000000')" class="w-4 h-4 rounded-full bg-black border border-slate-600 hover:scale-110 transition" title="Black"></button>
+                <button type="button" onmousedown="event.preventDefault()" onclick="applyColor('#ef4444')" class="w-4 h-4 rounded-full bg-red-500 border border-slate-600 hover:scale-110 transition" title="Red"></button>
+                <button type="button" onmousedown="event.preventDefault()" onclick="applyColor('#3b82f6')" class="w-4 h-4 rounded-full bg-blue-500 border border-slate-600 hover:scale-110 transition" title="Blue"></button>
+                <button type="button" onmousedown="event.preventDefault()" onclick="applyColor('#eab308')" class="w-4 h-4 rounded-full bg-yellow-500 border border-slate-600 hover:scale-110 transition" title="Yellow"></button>
+                <button type="button" onmousedown="event.preventDefault()" onclick="applyColor('#22c55e')" class="w-4 h-4 rounded-full bg-green-500 border border-slate-600 hover:scale-110 transition" title="Green"></button>
+              </div>             
+
+ <span class="w-[1px] bg-slate-700 my-1 mx-0.5"></span>
               <button type="button" onclick="execCmd('justifyLeft', 'createCardFront')" class="toolbar-btn" title="Align Left"><i class="fa-solid fa-align-left"></i></button>
               <button type="button" onclick="execCmd('justifyCenter', 'createCardFront')" class="toolbar-btn" title="Align Center"><i class="fa-solid fa-align-center"></i></button>
               <button type="button" onclick="execCmd('justifyRight', 'createCardFront')" class="toolbar-btn" title="Align Right"><i class="fa-solid fa-align-right"></i></button>
-              <button type="button" onclick="execCmd('insertUnorderedList', 'createCardFront')" class="toolbar-btn" title="Bullet List"><i class="fa-solid fa-list-ul"></i></button>
+             
+<button type="button" onmousedown="event.preventDefault()" onclick="execCmd('insertUnorderedList', 'createCardFront')" class="toolbar-btn" title="Bullet List"><i class="fa-solid fa-list-ul"></i></button>
+<button type="button" onmousedown="event.preventDefault()" onclick="execCmd('insertOrderedList', 'createCardFront')" class="toolbar-btn" title="Numbered List"><i class="fa-solid fa-list-ol"></i></button>
+
+
+
               <button type="button" onclick="execCmd('removeFormat', 'createCardFront')" class="toolbar-btn" title="Clear Formatting"><i class="fa-solid fa-eraser"></i></button>
             </div>
-            <div id="createCardFront" contenteditable="true" class="editor-canvas"></div>
+            
+<div id="createCardFront" contenteditable="true" class="editor-canvas" style="font-weight: bold;"><span style="font-weight: bold;"><br></span></div>
           </div>
 
           <!-- Back Editor -->
@@ -1039,16 +1221,23 @@ body.light-mode .text-slate-100,
                 <option value="5">Large (5)</option>
                 <option value="7">Huge (7)</option>
               </select>
-              <label class="toolbar-btn flex items-center gap-1 cursor-pointer px-2" title="Text Color">
-                <i class="fa-solid fa-palette text-xs text-indigo-400"></i>
-                <span class="text-[11px]">Color</span>
-                <input type="color" onchange="execCmd('foreColor', 'createCardBack', this.value)" class="w-6 h-6 border-0 bg-transparent cursor-pointer rounded p-0" />
-              </label>
+              
+<div class="color-palette-bar flex items-center space-x-1 px-1 bg-slate-900/50 rounded-lg border border-slate-700/60 py-0.5">
+                <button type="button" onmousedown="event.preventDefault()" onclick="applyColor('#000000')" class="w-4 h-4 rounded-full bg-black border border-slate-600 hover:scale-110 transition" title="Black"></button>
+                <button type="button" onmousedown="event.preventDefault()" onclick="applyColor('#ef4444')" class="w-4 h-4 rounded-full bg-red-500 border border-slate-600 hover:scale-110 transition" title="Red"></button>
+                <button type="button" onmousedown="event.preventDefault()" onclick="applyColor('#3b82f6')" class="w-4 h-4 rounded-full bg-blue-500 border border-slate-600 hover:scale-110 transition" title="Blue"></button>
+                <button type="button" onmousedown="event.preventDefault()" onclick="applyColor('#eab308')" class="w-4 h-4 rounded-full bg-yellow-500 border border-slate-600 hover:scale-110 transition" title="Yellow"></button>
+                <button type="button" onmousedown="event.preventDefault()" onclick="applyColor('#22c55e')" class="w-4 h-4 rounded-full bg-green-500 border border-slate-600 hover:scale-110 transition" title="Green"></button>
+              </div>
               <span class="w-[1px] bg-slate-700 my-1 mx-0.5"></span>
               <button type="button" onclick="execCmd('justifyLeft', 'createCardBack')" class="toolbar-btn" title="Align Left"><i class="fa-solid fa-align-left"></i></button>
               <button type="button" onclick="execCmd('justifyCenter', 'createCardBack')" class="toolbar-btn" title="Align Center"><i class="fa-solid fa-align-center"></i></button>
               <button type="button" onclick="execCmd('justifyRight', 'createCardBack')" class="toolbar-btn" title="Align Right"><i class="fa-solid fa-align-right"></i></button>
-              <button type="button" onclick="execCmd('insertUnorderedList', 'createCardBack')" class="toolbar-btn" title="Bullet List"><i class="fa-solid fa-list-ul"></i></button>
+
+<button type="button" onmousedown="event.preventDefault()" onclick="execCmd('insertUnorderedList', 'createCardBack')" class="toolbar-btn" title="Bullet List"><i class="fa-solid fa-list-ul"></i></button>
+<button type="button" onmousedown="event.preventDefault()" onclick="execCmd('insertOrderedList', 'createCardBack')" class="toolbar-btn" title="Numbered List"><i class="fa-solid fa-list-ol"></i></button>
+
+
               <button type="button" onclick="execCmd('removeFormat', 'createCardBack')" class="toolbar-btn" title="Clear Formatting"><i class="fa-solid fa-eraser"></i></button>
             </div>
             <div id="createCardBack" contenteditable="true" class="editor-canvas"></div>
@@ -1066,11 +1255,47 @@ body.light-mode .text-slate-100,
     <div id="view-import" class="tab-view hidden space-y-6">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         
+        <div class="bg-slate-800 p-6 rounded-3xl border border-slate-700 shadow-xl space-y-4">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
+              <i class="fa-solid fa-file-arrow-up text-lg"></i>
+            </div>
+            <div>
+              <h3 class="font-bold text-white">Import Anki Deck (.apkg / .colpkg)</h3>
+              <p class="text-xs text-slate-400">Supports legacy and modern Anki v3 compressed formats</p>
+            </div>
+          </div>
 
+          <div class="border-2 border-dashed border-slate-700 rounded-2xl p-6 text-center hover:border-indigo-500 transition cursor-pointer relative" id="dropZone">
+            <input type="file" id="ankiFileInput" accept=".apkg,.colpkg" onchange="handleAnkiFileUpload(event)" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full" />
+            <i class="fa-solid fa-cloud-arrow-up text-3xl text-slate-500 mb-2"></i>
+            <p class="text-sm font-semibold text-slate-300">Click or Drag Anki file here</p>
+            <p class="text-xs text-slate-500 mt-1">.apkg or .colpkg files</p>
+          </div>
 
+          <div id="importProgress" class="hidden space-y-2">
+            <div class="flex justify-between text-xs font-semibold text-slate-400">
+              <span id="importStatusText">Parsing Anki Package...</span>
+              <span id="importPercent">0%</span>
+            </div>
+            <div class="w-full bg-slate-900 rounded-full h-2 overflow-hidden">
+              <div id="importProgressBar" class="bg-indigo-500 h-full w-0 transition-all duration-200"></div>
+            </div>
+          </div>
+        </div>
 
+        <div class="bg-slate-800 p-6 rounded-3xl border border-slate-700 shadow-xl space-y-4">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+              <i class="fa-solid fa-arrows-rotate text-lg"></i>
+            </div>
+            <div>
+              <h3 class="font-bold text-white">Cross-Device Synchronization</h3>
+              <p class="text-xs text-slate-400">Connect Firebase for instant sync between PC & iPhone</p>
+            </div>
+          </div>
 
-<div class="space-y-3">
+          <div class="space-y-3">
             <div>
               <label class="block text-xs font-semibold text-slate-400 mb-1">Sync Group Code / User Key</label>
               <div class="flex space-x-2">
@@ -1080,71 +1305,18 @@ body.light-mode .text-slate-100,
                 </button>
               </div>
             </div>
-
-            <!-- Cloud Sync Action Buttons -->
-            <div class="flex space-x-2 pt-1">
-              <button onclick="pushDecksToCloud()" class="flex-1 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs rounded-xl transition shadow flex items-center justify-center space-x-1.5">
-                <i class="fa-solid fa-cloud-arrow-up"></i>
-                <span>Push to Cloud</span>
-              </button>
-              <button onclick="pullDecksFromCloud()" class="flex-1 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-semibold text-xs rounded-xl transition shadow flex items-center justify-center space-x-1.5">
-                <i class="fa-solid fa-cloud-arrow-down"></i>
-                <span>Pull from Cloud</span>
-              </button>
-            </div>
-
             <p class="text-[11px] text-slate-500 leading-relaxed">
-              Enter the exact same Sync Group Code on your PC and iPhone. Click <b>Push</b> on your PC to upload, and <b>Pull</b> on your iPhone to download your decks instantly.
+              Enter the exact same Sync Group Code on your PC and iPhone to share decks, review history, and images instantly.
             </p>
           </div>
-
-
+        </div>
 
       </div>
     </div>
 
     <!-- Hidden Replacement Input -->
     <input type="file" id="imageReplaceInput" accept="image/*" class="hidden" onchange="processImageReplacement(event)" />
-<!-- ENLARGED CARD ZOOM MODAL (OPTIMIZED FOR IPHONE) -->
-  <div id="enlargedCardModal" class="hidden fixed inset-0 z-50 bg-slate-950/95 flex flex-col justify-between p-4 md:p-8">
-    <!-- Top Bar: Title & Close -->
-    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
-      <div class="flex items-center space-x-2">
-        <span id="enlargedCardBadge" class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-indigo-950 text-indigo-300 border border-indigo-800">QUESTION</span>
-        <span id="enlargedCardProgress" class="text-xs text-slate-400 font-medium">Card 1 of 10</span>
-      </div>
-      <button onclick="closeEnlargedCard()" class="w-10 h-10 rounded-full bg-slate-800 hover:bg-slate-700 text-white flex items-center justify-center text-lg shadow-lg">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
-    </div>
 
-    <!-- Center: Large Card Scrollable Area -->
-    <div class="flex-1 flex items-center justify-center py-4 overflow-y-auto">
-      <div onclick="flipEnlargedCard()" class="w-full max-w-2xl min-h-[400px] md:min-h-[480px] bg-slate-900 border border-slate-700 rounded-3xl p-6 md:p-10 shadow-2xl flex flex-col justify-between cursor-pointer relative">
-        <!-- Front / Back Switcher Container -->
-        <div id="enlargedCardInner" class="w-full flex-1 flex flex-col items-center justify-center text-center space-y-6">
-          <div id="enlargedCardBody" class="enlarged-content text-lg md:text-2xl font-medium text-slate-100 w-full overflow-y-auto max-h-[60vh]">
-            <!-- Content Injected Dynamically -->
-          </div>
-        </div>
-        <div class="text-center text-xs text-indigo-400 font-semibold pt-4 border-t border-slate-800">
-          <i class="fa-solid fa-hand-pointer mr-1"></i> Tap anywhere on card to flip (Front / Back)
-        </div>
-      </div>
-    </div>
-
-    <!-- Bottom Bar: Navigation & Quick Rating -->
-    <div class="flex items-center justify-between gap-3 pt-3 border-t border-slate-800 max-w-2xl mx-auto w-full">
-      <button onclick="prevEnlargedCard()" class="px-5 py-3 bg-slate-800 hover:bg-slate-700 text-white rounded-2xl text-sm font-semibold flex items-center space-x-2 shadow">
-        <i class="fa-solid fa-chevron-left"></i>
-        <span>Previous</span>
-      </button>
-      <button onclick="nextEnlargedCard()" class="px-5 py-3 bg-indigo-600 hover:bg-indigo-500 text-white rounded-2xl text-sm font-semibold flex items-center space-x-2 shadow-lg shadow-indigo-500/30">
-        <span>Next</span>
-        <i class="fa-solid fa-chevron-right"></i>
-      </button>
-    </div>
-  </div>
   </main>
 
   <!-- QUICK ADD CARD MODAL -->
@@ -1183,27 +1355,48 @@ body.light-mode .text-slate-100,
               <option value="5">Large (5)</option>
               <option value="7">Huge (7)</option>
             </select>
-            <label class="toolbar-btn flex items-center gap-1 cursor-pointer px-2" title="Text Color">
-              <i class="fa-solid fa-palette text-xs text-indigo-400"></i>
-              <span class="text-[11px]">Color</span>
-              <input type="color" onchange="execCmd('foreColor', 'modalCardFront', this.value)" class="w-6 h-6 border-0 bg-transparent cursor-pointer rounded p-0" />
-            </label>
+            
+<div class="color-palette-bar flex items-center space-x-1 px-1 bg-slate-900/50 rounded-lg border border-slate-700/60 py-0.5">
+                <button type="button" onmousedown="event.preventDefault()" onclick="applyColor('#000000')" class="w-4 h-4 rounded-full bg-black border border-slate-600 hover:scale-110 transition" title="Black"></button>
+                <button type="button" onmousedown="event.preventDefault()" onclick="applyColor('#ef4444')" class="w-4 h-4 rounded-full bg-red-500 border border-slate-600 hover:scale-110 transition" title="Red"></button>
+                <button type="button" onmousedown="event.preventDefault()" onclick="applyColor('#3b82f6')" class="w-4 h-4 rounded-full bg-blue-500 border border-slate-600 hover:scale-110 transition" title="Blue"></button>
+                <button type="button" onmousedown="event.preventDefault()" onclick="applyColor('#eab308')" class="w-4 h-4 rounded-full bg-yellow-500 border border-slate-600 hover:scale-110 transition" title="Yellow"></button>
+                <button type="button" onmousedown="event.preventDefault()" onclick="applyColor('#22c55e')" class="w-4 h-4 rounded-full bg-green-500 border border-slate-600 hover:scale-110 transition" title="Green"></button>
+              </div>
+
             <span class="w-[1px] bg-slate-700 my-1 mx-0.5"></span>
             <button type="button" onclick="execCmd('justifyLeft', 'modalCardFront')" class="toolbar-btn" title="Align Left"><i class="fa-solid fa-align-left"></i></button>
             <button type="button" onclick="execCmd('justifyCenter', 'modalCardFront')" class="toolbar-btn" title="Align Center"><i class="fa-solid fa-align-center"></i></button>
             <button type="button" onclick="execCmd('justifyRight', 'modalCardFront')" class="toolbar-btn" title="Align Right"><i class="fa-solid fa-align-right"></i></button>
-            <button type="button" onclick="execCmd('insertUnorderedList', 'modalCardFront')" class="toolbar-btn" title="Bullet List"><i class="fa-solid fa-list-ul"></i></button>
+
+<button type="button" onmousedown="event.preventDefault()" onclick="execCmd('insertUnorderedList', 'modalCardFront')" class="toolbar-btn" title="Bullet List"><i class="fa-solid fa-list-ul"></i></button>
+<button type="button" onmousedown="event.preventDefault()" onclick="execCmd('insertOrderedList', 'modalCardFront')" class="toolbar-btn" title="Numbered List"><i class="fa-solid fa-list-ol"></i></button>
+
+
             <button type="button" onclick="execCmd('removeFormat', 'modalCardFront')" class="toolbar-btn" title="Clear Formatting"><i class="fa-solid fa-eraser"></i></button>
           </div>
-          <div id="modalCardFront" contenteditable="true" class="editor-canvas !min-h-[80px]"></div>
+<div id="modalCardFront" contenteditable="true" class="editor-canvas !min-h-[80px]" style="font-weight: bold;"></div>
         </div>
 
         <div>
           <div class="flex items-center justify-between mb-1">
             <label class="block text-xs font-semibold text-slate-400">Back (Answer / Description)</label>
-            <button type="button" onclick="openSketchModal('modalCardBack')" class="text-purple-400 hover:underline text-xs flex items-center gap-1">
-              <i class="fa-solid fa-pencil"></i> Apple Pencil Sketch
-            </button>
+            <div class="flex items-center space-x-3 text-xs">
+              <button type="button" onclick="openSketchModal('modalCardBack')" class="text-purple-400 hover:underline flex items-center gap-1">
+                <i class="fa-solid fa-pencil"></i> Apple Pencil Sketch
+              </button>
+              <label class="text-indigo-400 hover:underline cursor-pointer flex items-center gap-1">
+                <i class="fa-solid fa-image"></i> Add Image
+                <input type="file" accept="image/*" class="hidden" onchange="insertImageToEditor(event, 'modalCardBack')" />
+              </label>
+              <label class="text-emerald-400 hover:underline cursor-pointer flex items-center gap-1">
+                <i class="fa-solid fa-file-audio"></i> Upload Audio
+                <input type="file" accept="audio/*,.mp3,.wav,.m4a,.ogg,.webm,.aac" class="hidden" onchange="insertAudioFileToEditor(event, 'modalCardBack')" />
+              </label>
+              <button type="button" id="recordBackAudioBtn" onclick="toggleBackAudioRecording()" class="text-rose-400 hover:underline flex items-center gap-1" title="Record audio for the back of this card">
+                <i class="fa-solid fa-microphone"></i> <span>Record Audio</span>
+              </button>
+            </div>
           </div>
           <div class="flex flex-wrap gap-1 bg-slate-800 p-1.5 rounded-lg border border-slate-700 mb-1 items-center">
             <button type="button" onclick="execCmd('bold', 'modalCardBack')" class="toolbar-btn" title="Bold"><i class="fa-solid fa-bold"></i></button>
@@ -1217,16 +1410,25 @@ body.light-mode .text-slate-100,
               <option value="5">Large (5)</option>
               <option value="7">Huge (7)</option>
             </select>
-            <label class="toolbar-btn flex items-center gap-1 cursor-pointer px-2" title="Text Color">
-              <i class="fa-solid fa-palette text-xs text-indigo-400"></i>
-              <span class="text-[11px]">Color</span>
-              <input type="color" onchange="execCmd('foreColor', 'modalCardBack', this.value)" class="w-6 h-6 border-0 bg-transparent cursor-pointer rounded p-0" />
-            </label>
+            
+<div class="color-palette-bar flex items-center space-x-1 px-1 bg-slate-900/50 rounded-lg border border-slate-700/60 py-0.5">
+                <button type="button" onmousedown="event.preventDefault()" onclick="applyColor('#000000')" class="w-4 h-4 rounded-full bg-black border border-slate-600 hover:scale-110 transition" title="Black"></button>
+                <button type="button" onmousedown="event.preventDefault()" onclick="applyColor('#ef4444')" class="w-4 h-4 rounded-full bg-red-500 border border-slate-600 hover:scale-110 transition" title="Red"></button>
+                <button type="button" onmousedown="event.preventDefault()" onclick="applyColor('#3b82f6')" class="w-4 h-4 rounded-full bg-blue-500 border border-slate-600 hover:scale-110 transition" title="Blue"></button>
+                <button type="button" onmousedown="event.preventDefault()" onclick="applyColor('#eab308')" class="w-4 h-4 rounded-full bg-yellow-500 border border-slate-600 hover:scale-110 transition" title="Yellow"></button>
+                <button type="button" onmousedown="event.preventDefault()" onclick="applyColor('#22c55e')" class="w-4 h-4 rounded-full bg-green-500 border border-slate-600 hover:scale-110 transition" title="Green"></button>
+              </div>
+
             <span class="w-[1px] bg-slate-700 my-1 mx-0.5"></span>
             <button type="button" onclick="execCmd('justifyLeft', 'modalCardBack')" class="toolbar-btn" title="Align Left"><i class="fa-solid fa-align-left"></i></button>
             <button type="button" onclick="execCmd('justifyCenter', 'modalCardBack')" class="toolbar-btn" title="Align Center"><i class="fa-solid fa-align-center"></i></button>
             <button type="button" onclick="execCmd('justifyRight', 'modalCardBack')" class="toolbar-btn" title="Align Right"><i class="fa-solid fa-align-right"></i></button>
-            <button type="button" onclick="execCmd('insertUnorderedList', 'modalCardBack')" class="toolbar-btn" title="Bullet List"><i class="fa-solid fa-list-ul"></i></button>
+
+<button type="button" onmousedown="event.preventDefault()" onclick="execCmd('insertUnorderedList', 'modalCardBack')" class="toolbar-btn" title="Bullet List"><i class="fa-solid fa-list-ul"></i></button>
+<button type="button" onmousedown="event.preventDefault()" onclick="execCmd('insertOrderedList', 'modalCardBack')" class="toolbar-btn" title="Numbered List"><i class="fa-solid fa-list-ol"></i></button>
+
+
+
             <button type="button" onclick="execCmd('removeFormat', 'modalCardBack')" class="toolbar-btn" title="Clear Formatting"><i class="fa-solid fa-eraser"></i></button>
           </div>
           <div id="modalCardBack" contenteditable="true" class="editor-canvas !min-h-[80px]"></div>
@@ -1337,6 +1539,177 @@ body.light-mode .text-slate-100,
 
   <!-- Application Logic JS -->
   <script>
+
+
+function convertFontTags(container) {
+
+    container.querySelectorAll('font').forEach(font => {
+
+        const span = document.createElement('span');
+
+        if (font.hasAttribute('color')) {
+            span.style.color = font.getAttribute('color');
+        }
+
+        if (font.hasAttribute('face')) {
+            span.style.fontFamily = font.getAttribute('face');
+        }
+
+        if (font.hasAttribute('size')) {
+            span.style.fontSize = font.getAttribute('size');
+        }
+
+        span.innerHTML = font.innerHTML;
+
+        font.replaceWith(span);
+    });
+}
+
+
+function sanitizeHtmlContent(html) {
+
+    if (!html) return '';
+
+    const temp = document.createElement('div');
+    temp.innerHTML = html;
+
+    temp.querySelectorAll('*').forEach(el => {
+        // Read explicitly set or computed inline font weight
+        const savedWeight = el.style.fontWeight || (window.getComputedStyle(el).fontWeight);
+
+        el.style.removeProperty('position');
+        el.style.removeProperty('top');
+        el.style.removeProperty('left');
+        el.style.removeProperty('right');
+        el.style.removeProperty('bottom');
+
+        // Retain inline font-weights if present in pasted or formatted text
+        if (savedWeight) {
+    el.style.fontWeight = savedWeight;
+}
+
+        if (el.className) {
+            const cls = String(el.className);
+            if (cls.includes('Mso')) {
+                el.removeAttribute('class');
+            }
+        }
+    });
+
+    return temp.innerHTML;
+}
+
+
+// Handle Backspace inside lists to remove bullets when empty
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Backspace') {
+    const sel = window.getSelection();
+    if (!sel.rangeCount) return;
+
+    let node = sel.anchorNode;
+    // Traverse up to find if we are inside a list item (LI)
+    while (node && node !== document.body) {
+      if (node.nodeName === 'LI') {
+        // Check if the list item is completely empty or just contains zero-width spaces/breaks
+        const textContent = node.textContent.trim();
+        const isAtStart = sel.anchorOffset === 0;
+
+        // If the item is empty, or cursor is at the very beginning of the item
+        if (textContent === '' || (isAtStart && sel.isCollapsed)) {
+          e.preventDefault();
+          
+          // Outdent the list item to convert it back to a normal paragraph or remove the bullet
+          document.execCommand('outdent', false, null);
+          
+          // Optional: If outdent leaves an empty list container or if it's the last item, clean up if needed
+          const parentList = node.parentNode;
+          if (parentList && (parentList.nodeName === 'UL' || parentList.nodeName === 'OL') && parentList.children.length === 1 && parentList.textContent.trim() === '') {
+            parentList.remove();
+          }
+        }
+        break;
+      }
+      node = node.parentNode;
+    }
+  }
+});
+
+
+function execCmd(command, editorId = null, value = null) {
+  const targetId = editorId || activeEditorId;
+  if (!targetId) return;
+
+  const editor = document.getElementById(targetId);
+  if (!editor) return;
+
+  editor.focus();
+
+  // Restore last cursor position if available
+  if (savedRange) {
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(savedRange);
+  }
+
+  if (command === 'removeFormat') {
+    // Aggressive deep-clean: remove all inline styles, spans, and formatting wrappers completely
+    const sel = window.getSelection();
+    if (sel.rangeCount > 0 && !sel.isCollapsed) {
+      const range = sel.getRangeAt(0);
+      const tempDiv = document.createElement('div');
+      tempDiv.appendChild(range.extractContents());
+      // Strip all tags except basic line breaks, keeping only raw text
+      range.insertNode(document.createTextNode(tempDiv.textContent || tempDiv.innerText || ''));
+    } else {
+      // If no text is selected, clear formatting on the entire active editor box safely
+      const htmlContent = editor.innerText;
+      editor.innerHTML = '';
+      editor.appendChild(document.createTextNode(htmlContent));
+    }
+  } else {
+    document.execCommand(command, false, value);
+  }
+
+  // Save updated selection
+  const sel = window.getSelection();
+  if (sel.rangeCount > 0) {
+    savedRange = sel.getRangeAt(0).cloneRange();
+  }
+}
+
+
+function promptCreateDeck() {
+  const deckName = prompt("Enter new deck name:");
+  if (!deckName || !deckName.trim()) return;
+
+  // Build a list of available groups/categories for the prompt
+  const categoriesList = appState.categories.join(", ");
+  const groupName = prompt(`Enter group (category) name for this deck.\nAvailable groups: ${categoriesList}`, appState.categories[0] || "General");
+  
+  if (groupName === null) return; // User cancelled
+
+  const trimmedGroup = groupName.trim() || "General";
+
+  // Automatically add the group if it doesn't exist yet
+  if (!appState.categories.includes(trimmedGroup)) {
+    appState.categories.push(trimmedGroup);
+  }
+
+  // Create the new blank deck object
+  const deckId = 'deck_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4);
+  appState.decks[deckId] = {
+    id: deckId,
+    name: deckName.trim(),
+    category: trimmedGroup,
+    cards: []
+  };
+
+  saveLocalState();
+  renderCategories();
+  renderDecks();
+  showToast("New deck created successfully!");
+}
+
     let appState = {
       decks: {},
       categories: ['General', 'Medical', 'Languages'],
@@ -1595,9 +1968,12 @@ body.light-mode .text-slate-100,
         zip.file("collection.anki2", binaryArray);
         zip.file("media", JSON.stringify(mediaMap));
 
-        const content = await zip.generateAsync({ type: "blob" });
         
-        if ('showSaveFilePicker' in window) {
+
+const content = await zip.generateAsync({ type: "blob" });
+        
+        // Check if File System Access API is supported and usable
+        if (window.isSecureContext && 'showSaveFilePicker' in window) {
           try {
             const handle = await window.showSaveFilePicker({
               suggestedName: "AnkiSync_Export_" + Date.now() + ".apkg",
@@ -1612,29 +1988,23 @@ body.light-mode .text-slate-100,
             return;
           } catch (err) {
             if (err.name === 'AbortError') {
-              return;
+              return; // User cancelled the save dialog
             }
-            console.warn("File System Access API failed, falling back to standard prompt:", err);
+            console.warn("File System Access API failed, falling back to standard download:", err);
           }
         }
 
-        let userInput = prompt("Enter file name for your Anki package:", "AnkiSync_Deck_" + Date.now());
-        if (userInput === null) return;
-        
-        let filename = userInput.trim();
-        if (!filename) {
-          filename = "AnkiSync_Export_" + Date.now();
-        }
-        if (!filename.endsWith(".apkg")) {
-          filename += ".apkg";
-        }
-
+        // Fallback: Creates a direct download link without the generic popup prompt
+        const filename = "AnkiSync_Deck_" + Date.now() + ".apkg";
         const downloadAnchor = document.createElement('a');
         downloadAnchor.href = URL.createObjectURL(content);
         downloadAnchor.download = filename;
         document.body.appendChild(downloadAnchor);
         downloadAnchor.click();
         downloadAnchor.remove();
+        showToast("Deck exported successfully!");
+
+
 
       } catch(err) {
         console.error("APKG Export Error:", err);
@@ -1930,17 +2300,29 @@ body.light-mode .text-slate-100,
         const lastIdx = deck.lastIndex || 0;
         const percent = cardCount > 0 ? Math.round((lastIdx / cardCount) * 100) : 0;
 
+        // Build the dropdown options dynamically from appState.categories
+        let categoryOptions = '';
+        appState.categories.forEach(cat => {
+          const selected = (deck.category === cat) ? 'selected' : '';
+          categoryOptions += `<option value="${cat}" ${selected}>${cat}</option>`;
+        });
+
         const cardEl = document.createElement('div');
         cardEl.className = "bg-slate-800 p-5 rounded-3xl border border-slate-700 shadow-lg flex flex-col justify-between hover:border-slate-600 transition space-y-4";
         cardEl.innerHTML = `
           <div class="space-y-2">
             <div class="flex items-center justify-between">
-              <span class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-slate-900 text-indigo-400 border border-slate-700/80">${deck.category || 'General'}</span>
+              <select onchange="updateDeckCategory('${deck.id}', this.value)" class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-slate-900 text-indigo-400 border border-slate-700/80 outline-none cursor-pointer">
+                ${categoryOptions}
+              </select>
               <button onclick="deleteDeck('${deck.id}')" class="text-slate-500 hover:text-rose-400 transition text-xs p-1">
                 <i class="fa-solid fa-trash"></i>
               </button>
             </div>
             <h3 class="font-bold text-slate-100 text-base leading-snug line-clamp-2">${deck.name}</h3>
+
+
+
             <div class="flex items-center justify-between text-xs text-slate-400 font-medium">
               <span>${cardCount} cards</span>
               <span>${percent}% completed</span>
@@ -1950,12 +2332,15 @@ body.light-mode .text-slate-100,
             </div>
           </div>
 
-          <div class="pt-2 flex items-center space-x-2">
+  <div class="pt-2 flex items-center space-x-2">
             <button onclick="startStudy('${deck.id}')" class="flex-1 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-xl transition shadow-lg shadow-indigo-500/20 flex items-center justify-center space-x-1.5">
-              <i class="fa-solid fa-play text-[10px]"></i>
-              <span>${lastIdx > 0 ? 'Resume Study' : 'Start Study'}</span>
+              <i class="fa-solid fa-folder-open text-[10px]"></i>
+              <span>Open</span>
             </button>
-          </div>
+          </div>  
+
+
+
         `;
         grid.appendChild(cardEl);
       });
@@ -1977,22 +2362,32 @@ body.light-mode .text-slate-100,
 
     function startStudy(deckId) {
       const deck = appState.decks[deckId];
-      if (!deck || !deck.cards || deck.cards.length === 0) {
-        alert("This deck has no cards to study!");
-        return;
-      }
+      if (!deck) return;
 
       appState.activeStudyDeckId = deckId;
-      appState.studyQueue = [...deck.cards];
-      appState.studyIndex = deck.lastIndex && deck.lastIndex < deck.cards.length ? deck.lastIndex : 0;
+      appState.studyQueue = deck.cards ? [...deck.cards] : [];
+      appState.studyIndex = 0;
       selectedSidebarCardIds.clear();
 
       document.getElementById('studyDeckTitle').innerText = deck.name;
       checkPasteVisibility();
       renderSidebarList();
-      showStudyCard();
+
+      if (appState.studyQueue.length > 0) {
+        showStudyCard();
+      } else {
+        // Handle empty deck view so it doesn't break
+        document.getElementById('studyProgressText').innerText = "Card 0 of 0";
+        document.getElementById('cardTitleBadge').innerText = "EMPTY DECK";
+        document.getElementById('frontContent').innerHTML = "<p class='text-slate-400 text-sm'>This deck is empty. Click <b>'Add Card'</b> above to add your first card!</p>";
+        document.getElementById('backContent').innerHTML = "<p class='text-slate-400 text-sm'>No cards available.</p>";
+      }
+
       switchTab('study');
     }
+
+
+
 
     // --- SIDEBAR & MULTI-SELECT POSITION REORDERING ---
     function renderSidebarList() {
@@ -2262,46 +2657,50 @@ body.light-mode .text-slate-100,
     }
 
     // --- ADD CARD MODAL ---
-    function openAddCardModal() {
-      document.getElementById('modalCardTitle').value = '';
-      document.getElementById('modalCardFront').innerHTML = '';
-      document.getElementById('modalCardBack').innerHTML = '';
-      document.getElementById('quickAddModal').classList.remove('hidden');
-    }
+    
+function openAddCardModal() {
+  document.getElementById('modalCardTitle').value = '';
+  document.getElementById('modalCardFront').innerHTML = '<span style="font-weight: bold;"><br></span>';
+  document.getElementById('modalCardBack').innerHTML = '<br>';
+  document.getElementById('quickAddModal').classList.remove('hidden');
+}
+
 
     function closeAddCardModal() {
       document.getElementById('quickAddModal').classList.add('hidden');
     }
 
     function saveModalCard() {
-      const title = document.getElementById('modalCardTitle').value.trim();
-      const front = document.getElementById('modalCardFront').innerHTML.trim();
-      const back = document.getElementById('modalCardBack').innerHTML.trim();
+  const title = document.getElementById('modalCardTitle').value.trim();
+  // Sanitize to clean external PPT/Word styles
+  const front = sanitizeHtmlContent(document.getElementById('modalCardFront').innerHTML.trim());
+  const back = sanitizeHtmlContent(document.getElementById('modalCardBack').innerHTML.trim());
 
-      if (!front) {
-        alert("Please enter front question content.");
-        return;
-      }
+  if (!front) {
+    alert("Please enter front question content.");
+    return;
+  }
 
-      const newCard = {
-        id: 'card_' + Date.now(),
-        title: title || '',
-        front: front,
-        back: back || 'N/A'
-      };
+  const newCard = {
+    id: 'card_' + Date.now(),
+    title: title || '',
+    front: front,
+    back: back || 'N/A'
+  };
 
-      const deck = appState.decks[appState.activeStudyDeckId];
-      if (deck) {
-        if (!deck.cards) deck.cards = [];
-        deck.cards.push(newCard);
-        appState.studyQueue = [...deck.cards];
-        saveLocalState();
-        renderSidebarList();
-        showStudyCard();
-        closeAddCardModal();
-        alert("New card added successfully!");
-      }
-    }
+  const deck = appState.decks[appState.activeStudyDeckId];
+  if (deck) {
+    if (!deck.cards) deck.cards = [];
+    deck.cards.push(newCard);
+    appState.studyQueue = [...deck.cards];
+    saveLocalState();
+    renderSidebarList();
+    showStudyCard();
+    closeAddCardModal();
+    showToast("New card added successfully!");
+  }
+}
+
 
     function showStudyCard() {
       const card = appState.studyQueue[appState.studyIndex];
@@ -2314,7 +2713,10 @@ body.light-mode .text-slate-100,
       badge.innerText = card.title ? card.title.toUpperCase() : 'QUESTION';
 
       document.getElementById('frontContent').innerHTML = wrapImagesWithControls(card.front, 'front');
-      document.getElementById('backContent').innerHTML = wrapImagesWithControls(card.back, 'back');
+      
+const backContent = document.getElementById('backContent');
+backContent.innerHTML = wrapImagesWithControls(card.back, 'back');
+
     }
 
     function wrapImagesWithControls(html, side) {
@@ -2414,12 +2816,160 @@ body.light-mode .text-slate-100,
       }
     }
 
-    function execCmd(command, targetId, value = null) {
-      const element = document.getElementById(targetId);
+    
+let activeEditorId = null;
+let savedRange = null;
+
+document.addEventListener('paste', function (e) {
+    const target = e.target && e.target.nodeType === 1 ? e.target : e.target?.parentElement;
+    const editor = target && target.closest('.editor-canvas');
+    if (!editor || !e.clipboardData) return;
+
+    const clipboard = e.clipboardData;
+    const selection = window.getSelection();
+    let pasteRange = null;
+    if (selection && selection.rangeCount) {
+        const currentRange = selection.getRangeAt(0);
+        // Only use the current selection if it belongs to the editor receiving the paste.
+        if (editor.contains(currentRange.commonAncestorContainer) || currentRange.commonAncestorContainer === editor) {
+            pasteRange = currentRange.cloneRange();
+        }
+    }
+
+    // Read rich-text/plain-text clipboard formats before image handling. PowerPoint often
+    // exposes both a slide image and HTML/text; prefer the editable text when present.
+    const html = clipboard.getData('text/html');
+    const text = clipboard.getData('text/plain');
+    let clipboardHtmlHasText = false;
+    if (html) {
+        const htmlProbe = document.createElement('div');
+        htmlProbe.innerHTML = html;
+        clipboardHtmlHasText = !!(htmlProbe.textContent || '').replace(/[\s\u00a0]+/g, '').trim();
+    }
+
+    // Paste copied audio files directly into the back-card editor when the browser exposes them.
+    const audioItems = Array.from(clipboard.items || []).filter(item => item.type && item.type.startsWith('audio/'));
+    if (audioItems.length && editor.id === 'modalCardBack') {
+        e.preventDefault();
+        audioItems.forEach(item => {
+            const file = item.getAsFile();
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                insertAudioDataUrlIntoEditor(evt.target.result, editor.id, file.type);
+            };
+            reader.readAsDataURL(file);
+        });
+        return;
+    }
+
+    // Paste copied image files/screenshots directly into the editor as embedded images.
+    const imageItems = Array.from(clipboard.items || []).filter(item => item.type && item.type.startsWith('image/'));
+    // Only take the image-only path when the clipboard has no useful rich text.
+    // This prevents PowerPoint's slide preview image from replacing selectable text.
+    if (imageItems.length && !clipboardHtmlHasText && !(text || '').trim()) {
+        e.preventDefault();
+        const insertAtSavedRange = (node) => {
+            editor.focus();
+            const sel = window.getSelection();
+            if (pasteRange && sel) {
+                sel.removeAllRanges();
+                sel.addRange(pasteRange);
+            }
+            const activeSel = window.getSelection();
+            if (activeSel && activeSel.rangeCount && editor.contains(activeSel.getRangeAt(0).commonAncestorContainer)) {
+                const range = activeSel.getRangeAt(0);
+                range.deleteContents();
+                range.insertNode(node);
+                range.setStartAfter(node);
+                range.collapse(true);
+                activeSel.removeAllRanges();
+                activeSel.addRange(range);
+                pasteRange = range.cloneRange();
+            } else {
+                editor.appendChild(node);
+                pasteRange = null;
+            }
+        };
+        imageItems.forEach(item => {
+            const file = item.getAsFile();
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function (evt) {
+                const image = document.createElement('img');
+                image.src = evt.target.result;
+                image.style.maxWidth = '100%';
+                image.style.height = 'auto';
+                insertAtSavedRange(image);
+            };
+            reader.readAsDataURL(file);
+        });
+        return;
+    }
+
+    // Also support images copied from a webpage/document as HTML, plus rich-text and plain text.
+    if (html && clipboardHtmlHasText) {
+        e.preventDefault();
+        editor.focus();
+        const temp = document.createElement('div');
+        temp.innerHTML = html;
+        convertFontTags(temp);
+        if (pasteRange) {
+            const sel = window.getSelection();
+            if (sel) {
+                sel.removeAllRanges();
+                sel.addRange(pasteRange);
+            }
+        }
+        document.execCommand('insertHTML', false, temp.innerHTML);
+    } else if (text) {
+        e.preventDefault();
+        editor.focus();
+        if (pasteRange) {
+            const sel = window.getSelection();
+            if (sel) {
+                sel.removeAllRanges();
+                sel.addRange(pasteRange);
+            }
+        }
+        document.execCommand('insertText', false, text);
+    }
+});
+
+// Track and save the cursor/selection range whenever it changes inside an editor
+document.addEventListener('selectionchange', () => {
+  const sel = window.getSelection();
+  if (sel.rangeCount > 0) {
+    const range = sel.getRangeAt(0);
+    let node = range.commonAncestorContainer;
+    while (node) {
+      if (node.nodeType === 1 && node.classList && node.classList.contains('editor-canvas')) {
+        savedRange = range.cloneRange();
+        break;
+      }
+      node = node.parentNode;
+    }
+  }
+});
+
+// Automatically track whichever editor box the user clicks or focuses in
+document.addEventListener('focusin', (e) => {
+  if (e.target.classList && e.target.classList.contains('editor-canvas')) {
+    activeEditorId = e.target.id;
+  }
+});
+
+
+
+    
+function applyColor(color) {
+      if (!activeEditorId) return;
+      const element = document.getElementById(activeEditorId);
       if (!element) return;
       element.focus();
-      document.execCommand(command, false, value);
+      document.execCommand('foreColor', false, color);
     }
+
 
     function insertImageToEditor(event, targetId) {
       const file = event.target.files[0];
@@ -2433,6 +2983,101 @@ body.light-mode .text-slate-100,
       };
       reader.readAsDataURL(file);
       event.target.value = '';
+    }
+
+    // Audio files are embedded in the card HTML so they remain attached to the card.
+    function insertAudioFileToEditor(event, targetId) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+      if (!file.type.startsWith('audio/') && !/\.(mp3|wav|m4a|ogg|webm|aac|flac)$/i.test(file.name)) {
+        alert('Please choose an audio file.');
+        event.target.value = '';
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        insertAudioDataUrlIntoEditor(evt.target.result, targetId, file.type || 'audio/mpeg');
+      };
+      reader.onerror = function() { alert('Could not read this audio file.'); };
+      reader.readAsDataURL(file);
+      event.target.value = '';
+    }
+
+    function insertAudioDataUrlIntoEditor(dataUrl, targetId, mimeType) {
+      const editor = document.getElementById(targetId);
+      if (!editor || !dataUrl) return;
+      editor.focus();
+      const audio = document.createElement('audio');
+      audio.controls = true;
+      audio.preload = 'metadata';
+      audio.setAttribute('aria-label', 'Card audio');
+      audio.src = dataUrl;
+      audio.style.display = 'block';
+      audio.style.maxWidth = '100%';
+      audio.style.margin = '8px 0';
+      // Insert at the current cursor when possible; otherwise append to the editor.
+      const selection = window.getSelection();
+      if (selection && selection.rangeCount) {
+        const range = selection.getRangeAt(0);
+        if (editor.contains(range.commonAncestorContainer) || range.commonAncestorContainer === editor) {
+          range.deleteContents();
+          range.insertNode(audio);
+          range.setStartAfter(audio);
+          range.collapse(true);
+          selection.removeAllRanges();
+          selection.addRange(range);
+          return;
+        }
+      }
+      editor.appendChild(audio);
+    }
+
+    let backAudioRecorder = null;
+    let backAudioChunks = [];
+    let backAudioStream = null;
+
+    async function toggleBackAudioRecording() {
+      const button = document.getElementById('recordBackAudioBtn');
+      if (backAudioRecorder && backAudioRecorder.state === 'recording') {
+        backAudioRecorder.stop();
+        return;
+      }
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || typeof MediaRecorder === 'undefined') {
+        alert('Audio recording is not supported in this browser. Try a recent version of Chrome or Edge over HTTPS.');
+        return;
+      }
+      try {
+        backAudioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        backAudioChunks = [];
+        const options = {};
+        if (MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported('audio/webm;codecs=opus')) {
+          options.mimeType = 'audio/webm;codecs=opus';
+        } else if (MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported('audio/mp4')) {
+          options.mimeType = 'audio/mp4';
+        }
+        backAudioRecorder = new MediaRecorder(backAudioStream, options);
+        backAudioRecorder.ondataavailable = (event) => {
+          if (event.data && event.data.size) backAudioChunks.push(event.data);
+        };
+        backAudioRecorder.onstop = () => {
+          const blob = new Blob(backAudioChunks, { type: backAudioRecorder.mimeType || 'audio/webm' });
+          const reader = new FileReader();
+          reader.onload = (evt) => insertAudioDataUrlIntoEditor(evt.target.result, 'modalCardBack', blob.type);
+          reader.readAsDataURL(blob);
+          if (backAudioStream) backAudioStream.getTracks().forEach(track => track.stop());
+          backAudioStream = null;
+          backAudioRecorder = null;
+          backAudioChunks = [];
+          if (button) button.innerHTML = '<i class="fa-solid fa-microphone"></i> <span>Record Audio</span>';
+        };
+        backAudioRecorder.start();
+        if (button) button.innerHTML = '<i class="fa-solid fa-stop"></i> <span>Stop & Insert</span>';
+        showToast('Recording audio… click Stop & Insert when finished.');
+      } catch (error) {
+        if (backAudioStream) backAudioStream.getTracks().forEach(track => track.stop());
+        backAudioStream = null;
+        alert('Microphone access was denied or unavailable. Allow microphone access and try again.');
+      }
     }
 
     function toggleEditCurrentCard() {
@@ -2453,31 +3098,35 @@ body.light-mode .text-slate-100,
       }
     }
 
-    function saveCardEdits() {
-      const newTitle = document.getElementById('editCardTitleInput').value.trim();
-      const newFront = document.getElementById('editCardFront').innerHTML;
-      const newBack = document.getElementById('editCardBack').innerHTML;
+    
+function saveCardEdits() {
+  const newTitle = document.getElementById('editCardTitleInput').value.trim();
+  // Sanitize raw HTML to strip overlapping PPT line-heights/positioning
+  const newFront = sanitizeHtmlContent(document.getElementById('editCardFront').innerHTML);
+  const newBack = sanitizeHtmlContent(document.getElementById('editCardBack').innerHTML);
 
-      const card = appState.studyQueue[appState.studyIndex];
-      card.title = newTitle;
-      card.front = newFront;
-      card.back = newBack;
-
-      const deck = appState.decks[appState.activeStudyDeckId];
-      if (deck && deck.cards) {
-        const origCard = deck.cards.find(c => c.id === card.id);
-        if (origCard) {
-          origCard.title = newTitle;
-          origCard.front = newFront;
-          origCard.back = newBack;
-        }
-      }
-
-      saveLocalState();
-      renderSidebarList();
-      showStudyCard();
-      toggleEditCurrentCard();
+  const card = appState.studyQueue[appState.studyIndex];
+  card.title = newTitle;
+  card.front = newFront;
+  card.back = newBack;
+  const deck = appState.decks[appState.activeStudyDeckId];
+  if (deck && deck.cards) {
+    const origCard = deck.cards.find(c => c.id === card.id);
+    if (origCard) {
+      origCard.title = newTitle;
+      origCard.front = newFront;
+      origCard.back = newBack;
     }
+  }
+
+  saveLocalState();
+  renderSidebarList();
+  showStudyCard();
+  toggleEditCurrentCard();
+  showToast("Changes saved successfully!");
+}
+
+
 
     function flipCard() {
       document.getElementById('studyCard').classList.toggle('card-flipped');
@@ -2602,8 +3251,8 @@ body.light-mode .text-slate-100,
     function saveNewCard() {
       const deckId = document.getElementById('createCardDeck').value;
       const title = document.getElementById('createCardTitle').value.trim();
-      const front = document.getElementById('createCardFront').innerHTML.trim();
-      const back = document.getElementById('createCardBack').innerHTML.trim();
+      const front = sanitizeHtmlContent(document.getElementById('createCardFront').innerHTML.trim());
+      const back = sanitizeHtmlContent(document.getElementById('createCardBack').innerHTML.trim());
 
       if (!deckId || !front) {
         alert("Please select a deck and enter front question content.");
@@ -2622,11 +3271,11 @@ body.light-mode .text-slate-100,
 
       saveLocalState();
       document.getElementById('createCardTitle').value = '';
-      document.getElementById('createCardFront').innerHTML = '';
-      document.getElementById('createCardBack').innerHTML = '';
+      document.getElementById('createCardFront').innerHTML = '<span style="font-weight: bold;"><br></span>';
+      document.getElementById('createCardBack').innerHTML = '<br>';
       alert("Flashcard saved successfully!");
       switchTab('decks');
-    }
+    } // <-- THIS CLOSING BRACE WAS MISSING AND BROKE THE SCRIPT
 
     // --- ANKI IMPORT ENGINE ---
     async function handleAnkiFileUpload(event) {
@@ -2775,12 +3424,10 @@ body.light-mode .text-slate-100,
             front = replaceImgSrcsWithBase64(front, localMediaStore);
             back = replaceImgSrcsWithBase64(back, localMediaStore);
 
-            let targetDeckName = "Imported Anki Deck";
-            const firstDeckKey = Object.keys(decksMeta)[0];
-            if (firstDeckKey && decksMeta[firstDeckKey]) {
-              targetDeckName = decksMeta[firstDeckKey].name || targetDeckName;
-            }
-
+            
+// Extract file name without extension to use as the deck name
+            let targetDeckName = file.name.replace(/\.[^/.]+$/, "");
+            
             if (!importedCardsByDeck[targetDeckName]) {
               importedCardsByDeck[targetDeckName] = [];
             }
@@ -2791,6 +3438,8 @@ body.light-mode .text-slate-100,
               front: front,
               back: back
             });
+
+
           });
         }
         Object.keys(importedCardsByDeck).forEach(deckName => {
@@ -2918,124 +3567,15 @@ body.light-mode .text-slate-100,
         exitFocusStudyMode();
       }
     });
-let isEnlargedShowingBack = false;
+function updateDeckCategory(deckId, newCategory) {
+  if (appState.decks[deckId]) {
+    appState.decks[deckId].category = newCategory;
+    saveLocalState();
+    renderDecks();
+    showToast("Deck group updated successfully!");
+  }
+}
 
-    function openEnlargedCard() {
-      if (!appState.studyQueue || appState.studyQueue.length === 0) return;
-      isEnlargedShowingBack = false;
-      document.getElementById('enlargedCardModal').classList.remove('hidden');
-      renderEnlargedCardContent();
-    }
-
-    function closeEnlargedCard() {
-      document.getElementById('enlargedCardModal').classList.add('hidden');
-      showStudyCard(); // Sync back to normal view
-    }
-
-    function renderEnlargedCardContent() {
-      const card = appState.studyQueue[appState.studyIndex];
-      const badge = document.getElementById('enlargedCardBadge');
-      const progress = document.getElementById('enlargedCardProgress');
-      const body = document.getElementById('enlargedCardBody');
-
-      badge.innerText = isEnlargedShowingBack ? 'ANSWER' : (card.title ? card.title.toUpperCase() : 'QUESTION');
-      progress.innerText = `Card ${appState.studyIndex + 1} of ${appState.studyQueue.length}`;
-      
-      const rawContent = isEnlargedShowingBack ? card.back : card.front;
-      body.innerHTML = wrapImagesWithControls(rawContent, isEnlargedShowingBack ? 'back' : 'front');
-    }
-
-    function flipEnlargedCard() {
-      isEnlargedShowingBack = !isEnlargedShowingBack;
-      renderEnlargedCardContent();
-    }
-
-    function prevEnlargedCard() {
-      if (appState.studyIndex > 0) {
-        appState.studyIndex--;
-        isEnlargedShowingBack = false;
-        renderEnlargedCardContent();
-        renderSidebarList();
-      }
-    }
-
-    function nextEnlargedCard() {
-      if (appState.studyIndex < appState.studyQueue.length - 1) {
-        appState.studyIndex++;
-        isEnlargedShowingBack = false;
-        renderEnlargedCardContent();
-        renderSidebarList();
-      } else {
-        alert("You've reached the last card in this deck!");
-      }
-    }
-// --- YOUR FIREBASE CONFIGURATION ---
-    const firebaseConfig = {
-      apiKey: "AIzaSyDWZx9mbbXCyXgDLAos6XsDyvmSCik6iTw",
-      authDomain: "ma-anki-sync.firebaseapp.com",
-      projectId: "ma-anki-sync",
-      storageBucket: "ma-anki-sync.firebasestorage.app",
-      messagingSenderId: "345536828602",
-      appId: "1:345536828602:web:8466256c9340420b335e83",
-      measurementId: "G-ZY0VGZM215"
-    };
-
-    // Initialize Firebase (Compat Version)
-    if (!firebase.apps.length) {
-      firebase.initializeApp(firebaseConfig);
-    }
-
-    // --- CLOUD PUSH FUNCTION ---
-    async function pushDecksToCloud() {
-      const syncKey = localStorage.getItem('anki_sync_key');
-      if (!syncKey) {
-        alert("Please connect a Sync Group Code first!");
-        return;
-      }
-      try {
-        const db = firebase.firestore();
-        await db.collection('anki_sync_sessions').doc(syncKey).set({
-          decks: appState.decks,
-          categories: appState.categories,
-          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
-        showToast("Decks successfully pushed to cloud!");
-      } catch (err) {
-        console.error("Cloud push error:", err);
-        alert("Sync Push Error: " + err.message);
-      }
-    }
-
-    // --- CLOUD PULL FUNCTION ---
-    async function pullDecksFromCloud() {
-      const syncKey = localStorage.getItem('anki_sync_key');
-      if (!syncKey) {
-        alert("Please connect a Sync Group Code first!");
-        return;
-      }
-      try {
-        const db = firebase.firestore();
-        const docRef = await db.collection('anki_sync_sessions').doc(syncKey).get();
-        if (docRef.exists) {
-          const data = docRef.data();
-          if (data.decks) {
-            appState.decks = data.decks;
-            if (data.categories) appState.categories = data.categories;
-            saveLocalState();
-            renderCategories();
-            renderDecks();
-            showToast("Decks successfully pulled from cloud!");
-          } else {
-            alert("No decks found in this cloud session.");
-          }
-        } else {
-          alert("No cloud session found for this code.");
-        }
-      } catch (err) {
-        console.error("Cloud pull error:", err);
-        alert("Sync Pull Error: " + err.message);
-      }
-    }
   </script>
 </body>
 </html>
