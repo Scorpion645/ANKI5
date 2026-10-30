@@ -920,41 +920,31 @@ body.light-mode .text-slate-100,
             </div>
           </div>
 
-          <!-- Rich-Text & Media Interactive Edit Mode -->
+          
+
+<!-- Rich-Text & Media Interactive Edit Mode (Exact match to Add Card modal) -->
           <div id="studyEditMode" class="hidden flex-1 flex flex-col justify-between space-y-4">
-            <div class="space-y-4">
+            <div class="space-y-4 max-h-[60vh] overflow-y-auto pr-1">
               <h3 class="text-sm font-bold text-slate-300 border-b border-slate-700 pb-2 flex items-center space-x-2">
                 <i class="fa-solid fa-pen text-indigo-400"></i>
-                <span>Editing Card (Rich Format & Apple Pencil Support)</span>
+                <span>Edit Flashcard</span>
               </h3>
 
               <div>
-                <label class="block text-xs font-semibold text-slate-400 mb-1">Card Title (Shows in Sidebar)</label>
-                <input type="text" id="editCardTitleInput" placeholder="e.g. Mitral Valve Prolapse" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-indigo-500" />
+                <label class="block text-xs font-semibold text-slate-400 mb-1">Card Title (Optional - Shows in Sidebar)</label>
+                <input type="text" id="editCardTitleInput" placeholder="e.g. Heart Murmurs" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-indigo-500" />
               </div>
-              
-              <!-- Front Side Editor Section -->
-              <div class="space-y-1.5">
-                <div class="flex items-center justify-between flex-wrap gap-2">
-                  <label class="block text-xs font-semibold text-slate-400">Front Side (Question)</label>
-                  <div class="flex items-center space-x-3 text-xs">
-                    <button type="button" onclick="openSketchModal('editCardFront')" class="text-purple-400 hover:underline flex items-center gap-1">
-                      <i class="fa-solid fa-pencil"></i> Apple Pencil Sketch
-                    </button>
-                    <label class="text-indigo-400 hover:underline cursor-pointer flex items-center gap-1">
-                      <i class="fa-solid fa-image"></i> Add Image
-                      <input type="file" accept="image/*" class="hidden" onchange="insertImageToEditor(event, 'editCardFront')" />
-                    </label>
-                  </div>
+
+              <!-- Front Editor -->
+              <div>
+                <div class="flex items-center justify-between mb-1">
+                  <label class="block text-xs font-semibold text-slate-400">Front (Question / Prompt)</label>
+                  <button type="button" onclick="openSketchModal('editCardFront')" class="text-purple-400 hover:underline text-xs flex items-center gap-1">
+                    <i class="fa-solid fa-pencil"></i> Apple Pencil Sketch
+                  </button>
                 </div>
-
-                <!-- Full Formatting Toolbar -->
-                <div class="flex flex-wrap gap-1 bg-slate-800 p-1.5 rounded-lg border border-slate-700 items-center">
-                  
-
-<button type="button" onmousedown="event.preventDefault()" onclick="execCmd('bold')" class="toolbar-btn" title="Bold"><i class="fa-solid fa-bold"></i></button>
-
-
+                <div class="flex flex-wrap gap-1 bg-slate-800 p-1.5 rounded-lg border border-slate-700 mb-1 items-center">
+                  <button type="button" onclick="execCmd('bold', 'editCardFront')" class="toolbar-btn" title="Bold"><i class="fa-solid fa-bold"></i></button>
                   <button type="button" onclick="execCmd('italic', 'editCardFront')" class="toolbar-btn" title="Italic"><i class="fa-solid fa-italic"></i></button>
                   <button type="button" onclick="execCmd('underline', 'editCardFront')" class="toolbar-btn" title="Underline"><i class="fa-solid fa-underline"></i></button>
                   <span class="w-[1px] bg-slate-700 my-1 mx-0.5"></span>
@@ -965,36 +955,28 @@ body.light-mode .text-slate-100,
                     <option value="5">Large (5)</option>
                     <option value="7">Huge (7)</option>
                   </select>
-                  
-
-<div class="color-palette-bar flex items-center space-x-1 px-1 bg-slate-900/50 rounded-lg border border-slate-700/60 py-0.5">
-                <button type="button" onmousedown="event.preventDefault()" onclick="applyColor('#000000')" class="w-4 h-4 rounded-full bg-black border border-slate-600 hover:scale-110 transition" title="Black"></button>
-                <button type="button" onmousedown="event.preventDefault()" onclick="applyColor('#ef4444')" class="w-4 h-4 rounded-full bg-red-500 border border-slate-600 hover:scale-110 transition" title="Red"></button>
-                <button type="button" onmousedown="event.preventDefault()" onclick="applyColor('#3b82f6')" class="w-4 h-4 rounded-full bg-blue-500 border border-slate-600 hover:scale-110 transition" title="Blue"></button>
-                <button type="button" onmousedown="event.preventDefault()" onclick="applyColor('#eab308')" class="w-4 h-4 rounded-full bg-yellow-500 border border-slate-600 hover:scale-110 transition" title="Yellow"></button>
-                <button type="button" onmousedown="event.preventDefault()" onclick="applyColor('#22c55e')" class="w-4 h-4 rounded-full bg-green-500 border border-slate-600 hover:scale-110 transition" title="Green"></button>
-              </div>
-
-
+                  <div class="color-palette-bar flex items-center space-x-1 px-1 bg-slate-900/50 rounded-lg border border-slate-700/60 py-0.5">
+                    <button type="button" onmousedown="event.preventDefault()" onclick="applyColor('#000000')" class="w-4 h-4 rounded-full bg-black border border-slate-600 hover:scale-110 transition" title="Black"></button>
+                    <button type="button" onmousedown="event.preventDefault()" onclick="applyColor('#ef4444')" class="w-4 h-4 rounded-full bg-red-500 border border-slate-600 hover:scale-110 transition" title="Red"></button>
+                    <button type="button" onmousedown="event.preventDefault()" onclick="applyColor('#3b82f6')" class="w-4 h-4 rounded-full bg-blue-500 border border-slate-600 hover:scale-110 transition" title="Blue"></button>
+                    <button type="button" onmousedown="event.preventDefault()" onclick="applyColor('#eab308')" class="w-4 h-4 rounded-full bg-yellow-500 border border-slate-600 hover:scale-110 transition" title="Yellow"></button>
+                    <button type="button" onmousedown="event.preventDefault()" onclick="applyColor('#22c55e')" class="w-4 h-4 rounded-full bg-green-500 border border-slate-600 hover:scale-110 transition" title="Green"></button>
+                  </div>
                   <span class="w-[1px] bg-slate-700 my-1 mx-0.5"></span>
                   <button type="button" onclick="execCmd('justifyLeft', 'editCardFront')" class="toolbar-btn" title="Align Left"><i class="fa-solid fa-align-left"></i></button>
                   <button type="button" onclick="execCmd('justifyCenter', 'editCardFront')" class="toolbar-btn" title="Align Center"><i class="fa-solid fa-align-center"></i></button>
                   <button type="button" onclick="execCmd('justifyRight', 'editCardFront')" class="toolbar-btn" title="Align Right"><i class="fa-solid fa-align-right"></i></button>
-                 
-
-<button type="button" onmousedown="event.preventDefault()" onclick="execCmd('insertUnorderedList', 'editCardFront')" class="toolbar-btn" title="Bullet List"><i class="fa-solid fa-list-ul"></i></button>
-<button type="button" onmousedown="event.preventDefault()" onclick="execCmd('insertOrderedList', 'editCardFront')" class="toolbar-btn" title="Numbered List"><i class="fa-solid fa-list-ol"></i></button>
-
+                  <button type="button" onmousedown="event.preventDefault()" onclick="execCmd('insertUnorderedList', 'editCardFront')" class="toolbar-btn" title="Bullet List"><i class="fa-solid fa-list-ul"></i></button>
+                  <button type="button" onmousedown="event.preventDefault()" onclick="execCmd('insertOrderedList', 'editCardFront')" class="toolbar-btn" title="Numbered List"><i class="fa-solid fa-list-ol"></i></button>
                   <button type="button" onclick="execCmd('removeFormat', 'editCardFront')" class="toolbar-btn" title="Clear Formatting"><i class="fa-solid fa-eraser"></i></button>
                 </div>
-
-                <div id="editCardFront" contenteditable="true" class="editor-canvas"></div>
+                <div id="editCardFront" contenteditable="true" class="editor-canvas !min-h-[80px]"></div>
               </div>
 
-              <!-- Back Side Editor Section -->
-              <div class="space-y-1.5">
-                <div class="flex items-center justify-between flex-wrap gap-2">
-                  <label class="block text-xs font-semibold text-slate-400">Back Side (Answer)</label>
+              <!-- Back Editor -->
+              <div>
+                <div class="flex items-center justify-between mb-1">
+                  <label class="block text-xs font-semibold text-slate-400">Back (Answer / Description)</label>
                   <div class="flex items-center space-x-3 text-xs">
                     <button type="button" onclick="openSketchModal('editCardBack')" class="text-purple-400 hover:underline flex items-center gap-1">
                       <i class="fa-solid fa-pencil"></i> Apple Pencil Sketch
@@ -1003,10 +985,13 @@ body.light-mode .text-slate-100,
                       <i class="fa-solid fa-image"></i> Add Image
                       <input type="file" accept="image/*" class="hidden" onchange="insertImageToEditor(event, 'editCardBack')" />
                     </label>
+                    <label class="text-emerald-400 hover:underline cursor-pointer flex items-center gap-1">
+                      <i class="fa-solid fa-file-audio"></i> Upload Audio
+                      <input type="file" accept="audio/*,.mp3,.wav,.m4a,.ogg,.webm,.aac" class="hidden" onchange="insertAudioFileToEditor(event, 'editCardBack')" />
+                    </label>
                   </div>
                 </div>
-
-                <div class="flex flex-wrap gap-1 bg-slate-800 p-1.5 rounded-lg border border-slate-700 items-center">
+                <div class="flex flex-wrap gap-1 bg-slate-800 p-1.5 rounded-lg border border-slate-700 mb-1 items-center">
                   <button type="button" onclick="execCmd('bold', 'editCardBack')" class="toolbar-btn" title="Bold"><i class="fa-solid fa-bold"></i></button>
                   <button type="button" onclick="execCmd('italic', 'editCardBack')" class="toolbar-btn" title="Italic"><i class="fa-solid fa-italic"></i></button>
                   <button type="button" onclick="execCmd('underline', 'editCardBack')" class="toolbar-btn" title="Underline"><i class="fa-solid fa-underline"></i></button>
@@ -1018,47 +1003,36 @@ body.light-mode .text-slate-100,
                     <option value="5">Large (5)</option>
                     <option value="7">Huge (7)</option>
                   </select>
-                  
-<div class="color-palette-bar flex items-center space-x-1 px-1 bg-slate-900/50 rounded-lg border border-slate-700/60 py-0.5">
-                <button type="button" onmousedown="event.preventDefault()" onclick="applyColor('#000000')" class="w-4 h-4 rounded-full bg-black border border-slate-600 hover:scale-110 transition" title="Black"></button>
-                <button type="button" onmousedown="event.preventDefault()" onclick="applyColor('#ef4444')" class="w-4 h-4 rounded-full bg-red-500 border border-slate-600 hover:scale-110 transition" title="Red"></button>
-                <button type="button" onmousedown="event.preventDefault()" onclick="applyColor('#3b82f6')" class="w-4 h-4 rounded-full bg-blue-500 border border-slate-600 hover:scale-110 transition" title="Blue"></button>
-                <button type="button" onmousedown="event.preventDefault()" onclick="applyColor('#eab308')" class="w-4 h-4 rounded-full bg-yellow-500 border border-slate-600 hover:scale-110 transition" title="Yellow"></button>
-                <button type="button" onmousedown="event.preventDefault()" onclick="applyColor('#22c55e')" class="w-4 h-4 rounded-full bg-green-500 border border-slate-600 hover:scale-110 transition" title="Green"></button>
-              </div>
-
+                  <div class="color-palette-bar flex items-center space-x-1 px-1 bg-slate-900/50 rounded-lg border border-slate-700/60 py-0.5">
+                    <button type="button" onmousedown="event.preventDefault()" onclick="applyColor('#000000')" class="w-4 h-4 rounded-full bg-black border border-slate-600 hover:scale-110 transition" title="Black"></button>
+                    <button type="button" onmousedown="event.preventDefault()" onclick="applyColor('#ef4444')" class="w-4 h-4 rounded-full bg-red-500 border border-slate-600 hover:scale-110 transition" title="Red"></button>
+                    <button type="button" onmousedown="event.preventDefault()" onclick="applyColor('#3b82f6')" class="w-4 h-4 rounded-full bg-blue-500 border border-slate-600 hover:scale-110 transition" title="Blue"></button>
+                    <button type="button" onmousedown="event.preventDefault()" onclick="applyColor('#eab308')" class="w-4 h-4 rounded-full bg-yellow-500 border border-slate-600 hover:scale-110 transition" title="Yellow"></button>
+                    <button type="button" onmousedown="event.preventDefault()" onclick="applyColor('#22c55e')" class="w-4 h-4 rounded-full bg-green-500 border border-slate-600 hover:scale-110 transition" title="Green"></button>
+                  </div>
                   <span class="w-[1px] bg-slate-700 my-1 mx-0.5"></span>
                   <button type="button" onclick="execCmd('justifyLeft', 'editCardBack')" class="toolbar-btn" title="Align Left"><i class="fa-solid fa-align-left"></i></button>
                   <button type="button" onclick="execCmd('justifyCenter', 'editCardBack')" class="toolbar-btn" title="Align Center"><i class="fa-solid fa-align-center"></i></button>
                   <button type="button" onclick="execCmd('justifyRight', 'editCardBack')" class="toolbar-btn" title="Align Right"><i class="fa-solid fa-align-right"></i></button>
-                  
-
-<button type="button" onmousedown="event.preventDefault()" onclick="execCmd('insertUnorderedList', 'editCardBack')" class="toolbar-btn" title="Bullet List"><i class="fa-solid fa-list-ul"></i></button>
-<button type="button" onmousedown="event.preventDefault()" onclick="execCmd('insertOrderedList', 'editCardBack')" class="toolbar-btn" title="Numbered List"><i class="fa-solid fa-list-ol"></i></button>
-
-
-
+                  <button type="button" onmousedown="event.preventDefault()" onclick="execCmd('insertUnorderedList', 'editCardBack')" class="toolbar-btn" title="Bullet List"><i class="fa-solid fa-list-ul"></i></button>
+                  <button type="button" onmousedown="event.preventDefault()" onclick="execCmd('insertOrderedList', 'editCardBack')" class="toolbar-btn" title="Numbered List"><i class="fa-solid fa-list-ol"></i></button>
                   <button type="button" onclick="execCmd('removeFormat', 'editCardBack')" class="toolbar-btn" title="Clear Formatting"><i class="fa-solid fa-eraser"></i></button>
                 </div>
-
-                <div id="editCardBack" contenteditable="true" class="editor-canvas"></div>
+                <div id="editCardBack" contenteditable="true" class="editor-canvas !min-h-[80px]"></div>
               </div>
             </div>
 
             <div class="flex space-x-3 pt-2">
-              <button onclick="saveCardEdits()" class="flex-1 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold transition flex items-center justify-center space-x-1.5 shadow-md">
-                <i class="fa-solid fa-check"></i>
-                <span>Save Changes</span>
+              <button onclick="saveCardEdits()" class="flex-1 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold transition shadow-md">
+                Save Changes
               </button>
-              
-
-<button onclick="toggleEditCurrentCard()" class="px-5 py-2.5 bg-slate-700 hover:bg-slate-600 text-slate-300 rounded-xl text-xs font-semibold transition border border-slate-600">
+              <button onclick="toggleEditCurrentCard()" class="px-4 py-2.5 bg-slate-700 hover:bg-slate-600 text-slate-300 rounded-xl text-xs font-semibold transition">
                 Cancel
               </button>
-
-
             </div>
           </div>
+
+
 
           <!-- Bottom Navigation Controls -->
           <div class="flex justify-between items-center pt-4 border-t border-slate-700/60 mt-4">
@@ -3080,7 +3054,8 @@ function applyColor(color) {
       }
     }
 
-    function toggleEditCurrentCard() {
+    
+function toggleEditCurrentCard() {
       const viewMode = document.getElementById('studyViewMode');
       const editMode = document.getElementById('studyEditMode');
       
@@ -3097,6 +3072,9 @@ function applyColor(color) {
         editMode.classList.remove('hidden');
       }
     }
+
+
+
 
     
 function saveCardEdits() {
@@ -3425,9 +3403,18 @@ function saveCardEdits() {
             back = replaceImgSrcsWithBase64(back, localMediaStore);
 
             
-// Extract file name without extension to use as the deck name
+// Map card to its actual internal Anki deck name if available, otherwise fallback to filename
             let targetDeckName = file.name.replace(/\.[^/.]+$/, "");
-            
+            try {
+              const cardMetaRes = dbInstance.exec(`SELECT did FROM cards WHERE nid = ${row[0]}`);
+              if (cardMetaRes.length > 0 && cardMetaRes[0].values.length > 0) {
+                const did = cardMetaRes[0].values[0][0];
+                if (decksMeta[did] && decksMeta[did].name) {
+                  targetDeckName = decksMeta[did].name;
+                }
+              }
+            } catch(e) {}
+
             if (!importedCardsByDeck[targetDeckName]) {
               importedCardsByDeck[targetDeckName] = [];
             }
@@ -3440,29 +3427,104 @@ function saveCardEdits() {
             });
 
 
+
+
           });
         }
-        Object.keys(importedCardsByDeck).forEach(deckName => {
-          const deckId = 'deck_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4);
-          appState.decks[deckId] = {
-            id: deckId,
-            name: deckName,
-            category: appState.selectedCategory === 'ALL' ? 'General' : appState.selectedCategory,
-            cards: importedCardsByDeck[deckName]
+        
+
+
+// Prompt user to select which decks to import (bypass automatically if only 1 deck)
+        const deckNames = Object.keys(importedCardsByDeck);
+        if (deckNames.length === 0) {
+          throw new Error("No decks found in the imported file.");
+        }
+
+        const selectedDecks = await new Promise((resolve) => {
+          if (deckNames.length === 1) {
+            resolve(deckNames);
+            return;
+          }
+
+          const modalBg = document.createElement('div');
+          modalBg.className = "fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4";
+          
+          let listHtml = '';
+          deckNames.forEach((dName, idx) => {
+            const cardCount = importedCardsByDeck[dName].length;
+            listHtml += `
+              <label class="flex items-center space-x-3 p-3 bg-slate-900 rounded-xl border border-slate-700 cursor-pointer hover:border-indigo-500 transition">
+                <input type="checkbox" value="${dName}" checked class="import-deck-cb w-4 h-4 rounded bg-slate-800 border-slate-600 text-indigo-600 focus:ring-0" />
+                <div class="flex-1 truncate">
+                  <span class="text-sm font-semibold text-white block truncate">${dName}</span>
+                  <span class="text-xs text-slate-400">${cardCount} cards</span>
+                </div>
+              </label>
+            `;
+          });
+
+          modalBg.innerHTML = `
+            <div class="bg-slate-800 border border-slate-700 rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4">
+              <h3 class="font-bold text-white text-base flex items-center space-x-2">
+                <i class="fa-solid fa-file-import text-indigo-400"></i>
+                <span>Select Decks to Import</span>
+              </h3>
+              <p class="text-xs text-slate-400">Choose which decks you want to add to your library:</p>
+              <div class="space-y-2 max-h-[50vh] overflow-y-auto pr-1">
+                ${listHtml}
+              </div>
+              <div class="flex space-x-3 pt-2">
+                <button id="confirmImportBtn" class="flex-1 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold transition shadow-md">
+                  Import Selected Decks
+                </button>
+                <button id="cancelImportBtn" class="px-4 py-2.5 bg-slate-700 hover:bg-slate-600 text-slate-300 rounded-xl text-xs font-semibold transition">
+                  Cancel
+                </button>
+              </div>
+            </div>
+          `;
+          document.body.appendChild(modalBg);
+
+          modalBg.querySelector('#confirmImportBtn').onclick = () => {
+            const checked = Array.from(modalBg.querySelectorAll('.import-deck-cb:checked')).map(cb => cb.value);
+            modalBg.remove();
+            resolve(checked);
+          };
+          modalBg.querySelector('#cancelImportBtn').onclick = () => {
+            modalBg.remove();
+            resolve([]);
           };
         });
+
+
+
+
+        if (selectedDecks.length > 0) {
+          selectedDecks.forEach(deckName => {
+            const deckId = 'deck_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4);
+            appState.decks[deckId] = {
+              id: deckId,
+              name: deckName,
+              category: appState.selectedCategory === 'ALL' ? 'General' : appState.selectedCategory,
+              cards: importedCardsByDeck[deckName]
+            };
+          });
+          saveLocalState();
+          renderDecks();
+          showToast("Selected decks imported successfully!");
+        }
 
         progressBar.style.width = '100%';
         statusText.innerText = "Import Complete!";
         percentText.innerText = "100%";
-
-        saveLocalState();
-        renderDecks();
         
         setTimeout(() => {
           progressContainer.classList.add('hidden');
           switchTab('decks');
         }, 800);
+
+
+
 
       } catch (err) {
         console.error(err);
