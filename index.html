@@ -2334,13 +2334,20 @@ const content = await zip.generateAsync({ type: "blob" });
       }
     }
 
-    function startStudy(deckId) {
+    
+function startStudy(deckId) {
       const deck = appState.decks[deckId];
       if (!deck) return;
 
       appState.activeStudyDeckId = deckId;
       appState.studyQueue = deck.cards ? [...deck.cards] : [];
-      appState.studyIndex = 0;
+      
+      // Resume from where you left off, or start at 0 if completed/new
+      let resumeIdx = deck.lastIndex || 0;
+      if (resumeIdx >= appState.studyQueue.length) {
+        resumeIdx = 0;
+      }
+      appState.studyIndex = resumeIdx;
       selectedSidebarCardIds.clear();
 
       document.getElementById('studyDeckTitle').innerText = deck.name;
@@ -2349,8 +2356,10 @@ const content = await zip.generateAsync({ type: "blob" });
 
       if (appState.studyQueue.length > 0) {
         showStudyCard();
+        if (resumeIdx > 0) {
+          showToast(`Resumed from card ${resumeIdx + 1}`);
+        }
       } else {
-        // Handle empty deck view so it doesn't break
         document.getElementById('studyProgressText').innerText = "Card 0 of 0";
         document.getElementById('cardTitleBadge').innerText = "EMPTY DECK";
         document.getElementById('frontContent').innerHTML = "<p class='text-slate-400 text-sm'>This deck is empty. Click <b>'Add Card'</b> above to add your first card!</p>";
@@ -2359,6 +2368,8 @@ const content = await zip.generateAsync({ type: "blob" });
 
       switchTab('study');
     }
+
+
 
 
 
@@ -2598,12 +2609,18 @@ const content = await zip.generateAsync({ type: "blob" });
       showStudyCard();
     }
 
-    function selectCardFromSidebar(index) {
+function selectCardFromSidebar(index) {
       appState.studyIndex = index;
       document.getElementById('studyViewMode').classList.remove('hidden');
       document.getElementById('studyEditMode').classList.add('hidden');
       renderSidebarList();
       showStudyCard();
+
+      // Automatically save progress as you navigate/study
+      if (appState.activeStudyDeckId && appState.decks[appState.activeStudyDeckId]) {
+        appState.decks[appState.activeStudyDeckId].lastIndex = appState.studyIndex;
+        saveLocalState();
+      }
     }
 
     // --- "STOP HERE" SESSION & STATISTICS ---
@@ -3113,6 +3130,11 @@ function saveCardEdits() {
     function rateCard(rating) {
       if (appState.studyIndex >= appState.studyQueue.length - 1) {
         if (isImmersive) toggleImmersiveMode();
+        // Reset progress back to start upon 100% completion
+        if (appState.activeStudyDeckId && appState.decks[appState.activeStudyDeckId]) {
+          appState.decks[appState.activeStudyDeckId].lastIndex = 0;
+          saveLocalState();
+        }
         alert("🎉 Congratulations! You completed studying this deck!");
         exitStudy();
       } else {
